@@ -1,3 +1,4 @@
+// For creativity I added an extra option, number 6 that is the functionality of search by words on the user entries
 using System;
 using System.Runtime.CompilerServices;
 
