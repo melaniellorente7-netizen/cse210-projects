@@ -1,4 +1,5 @@
-using System;
+/*FOR CREATIVITY
+Added the option number 6 that is the possibility to delete a goal */
 
 class Program
 {

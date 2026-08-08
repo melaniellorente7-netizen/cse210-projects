@@ -15,8 +15,9 @@ public class GoalManager
     public void Start()
     {
         string userChoice = "0";
-        while (userChoice != "6")
+        while (userChoice != "7")
         {
+            Console.WriteLine();
             DisplayPlayerInfo();
             Console.WriteLine();
             Console.WriteLine("Menu Options: ");
@@ -25,7 +26,8 @@ public class GoalManager
             Console.WriteLine("3. Save Goals");
             Console.WriteLine("4. Load Goals");
             Console.WriteLine("5. Record Event");
-            Console.WriteLine("6. Quit");
+            Console.WriteLine("6. Delete Goal");
+            Console.WriteLine("7. Quit");
             Console.WriteLine("Select a choice from the menu: ");
 
             userChoice = Console.ReadLine();
@@ -52,7 +54,11 @@ public class GoalManager
             }
             else if (userChoice == "6")
             {
-                Console.WriteLine("Goodbye! Great job on your goals, keep it up!");
+               DeleteGoal();
+            }
+            else if (userChoice == "7")
+            {
+              Console.WriteLine("Goodbye! Great job on your goals, keep it up!");   
             }
             else
             {
@@ -100,8 +106,8 @@ public class GoalManager
         Console.WriteLine("1. Simple Goal");
         Console.WriteLine("2. Eternal Goal");
         Console.WriteLine("3. Checklist Goal");
-        string userChoice = Console.ReadLine();
         Console.WriteLine("Which type of goal would you like to create? ");
+        string userChoice = Console.ReadLine();
         Console.WriteLine("What is the name of your goal?");
         string name = Console.ReadLine();
         Console.WriteLine("What is a short description of it? ");
@@ -162,7 +168,7 @@ public class GoalManager
     }
     public void SaveGoals()
     {
-        Console.WriteLine("Please enter the name of the goal file");
+        Console.WriteLine("What is the filename for the goal file? ");
         string filename = Console.ReadLine();
 
         using (StreamWriter outputFile = new StreamWriter(filename))
@@ -177,7 +183,7 @@ public class GoalManager
     }
     public void LoadGoals()
     {
-        Console.WriteLine("Please enter the filename of the goal file: ");
+        Console.WriteLine("What is the filename for the goal file? ");
         string filename = Console.ReadLine();
 
         if (!File.Exists(filename))
@@ -221,16 +227,29 @@ public class GoalManager
                 string name = details[0];
                 string description = details[1];
                 int points = int.Parse(details[2]);
-                int bonus = int.Parse(details[3]);
-                int target = int.Parse(details[4]);
+                int target = int.Parse(details[3]);
+                int bonus = int.Parse(details[4]);
                 int amountCompleted = int.Parse(details[5]);
 
-                CheckListGoal goal = new CheckListGoal(name, description, points, bonus, target, amountCompleted);
+                CheckListGoal goal = new CheckListGoal(name, description, points, target, bonus, amountCompleted);
                 _goals.Add(goal);
             }
         }
 
         Console.WriteLine("Goals successfully loaded!");
+    }
+
+    public void DeleteGoal()
+    {
+        ListGoalNames();
+        Console.Write("Which goal would you like to delete? ");
+        int choice = int.Parse(Console.ReadLine()) - 1;
+
+        if (choice >= 0 && choice < _goals.Count)
+        {
+            Console.WriteLine($"Deleted: {_goals[choice].GetShortName()}");
+            _goals.RemoveAt(choice);
+        }
     }
 
 
